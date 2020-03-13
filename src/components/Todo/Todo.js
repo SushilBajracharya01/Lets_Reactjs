@@ -2,6 +2,7 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import TodoInput from './TodoInput';
 
+import './Todo.css';
 
 class Todo extends React.Component {
     constructor(props) {
@@ -47,31 +48,43 @@ class Todo extends React.Component {
         const { todo, todoList } = this.state;
 
         return (
-            <div className="container">
-                <TodoInput
-                    todo={todo}
-                    handleTextChange={this.handleTextChange}
-                    handleSubmit={this.handleSubmit}
-                />
-                <div>
-                    <h4>Todo List</h4>
-                    <ul>
-                        {
-                            todoList.map((todo, id) => {
-                                return (
-                                    <TodoItem
-                                        key={id}
-                                        id={id}
-                                        todo={todo}
-                                        removeTodo={this.removeTodo}
-                                        updateTodoFn={this.updateTodoFn}
-                                    />
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
+            <div className="Todo">
+                <div className="todoContainer">
+                    <h3 className="text-center display-4">
+                        Todo App
+                    </h3>
+                    <TodoInput
+                        todo={todo}
+                        handleTextChange={this.handleTextChange}
+                        handleSubmit={this.handleSubmit}
+                    />
+                    <div>
+                        <h4 className="text-center m-2">Todo List</h4>
+                        <div className="TodoList">
+                            {
+                                todoList.length ? 
+                                <ul className="list-group p-2 ">
+                                    {
+                                        todoList.map((todo, id) => {
+                                            return (
+                                                <TodoItem
+                                                    key={id}
+                                                    id={id}
+                                                    todo={todo}
+                                                    removeTodo={this.removeTodo}
+                                                    updateTodoFn={this.updateTodoFn}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </ul>
+                                :
+                                <div className="completeMsg text-secondary text-center d-flex align-items-center justify-content-center "> All Tasks Completed! </div>
+                            }
+                        </div>
 
+                    </div>
+                </div>
             </div>
         )
     }
