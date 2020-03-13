@@ -1,6 +1,5 @@
 import React from 'react';
 import TodoItem from './TodoItem';
-import UpdateBox from './UpdateBox';
 import TodoInput from './TodoInput';
 
 
@@ -10,8 +9,6 @@ class Todo extends React.Component {
         this.state = {
             todo: '',
             todoList: [],
-            changeTodo: false,
-            updateTodo: '',
             updateId: null,
         }
     }
@@ -36,13 +33,7 @@ class Todo extends React.Component {
             todoList: newTodo
         })
     }
-    displayUpdateBox = (id) => {
-        this.setState(prevState => ({
-            changeTodo: !prevState.changeTodo,
-            updateId: id,
-            updateTodo: this.state.todoList[id]
-        }))
-    }
+
     updateTodoFn = (id, todo) => {
         let newTodo = this.state.todoList;
         newTodo.splice(id, 1, todo);
@@ -53,25 +44,34 @@ class Todo extends React.Component {
         })
     }
     render() {
-        const { todo, todoList, changeTodo, updateTodo, updateId } = this.state;
+        const { todo, todoList } = this.state;
 
         return (
             <div className="container">
-                <TodoInput todo={todo} handleTextChange={this.handleTextChange} handleSubmit={this.handleSubmit} />
-                {
-                    changeTodo
-                    &&
-                    <UpdateBox updateTodo={updateTodo} updateId={updateId} handleTextChange={this.handleTextChange} updateTodoFn={this.updateTodoFn} />
-                }
-                <ul>
-                    {
-                        todoList.map((todo, id) => {
-                            return (
-                               <TodoItem key={id} id={id} todo={todo} removeTodo={this.removeTodo} displayUpdateBox={this.displayUpdateBox} /> 
-                            )
-                        })
-                    }
-                </ul>
+                <TodoInput
+                    todo={todo}
+                    handleTextChange={this.handleTextChange}
+                    handleSubmit={this.handleSubmit}
+                />
+                <div>
+                    <h4>Todo List</h4>
+                    <ul>
+                        {
+                            todoList.map((todo, id) => {
+                                return (
+                                    <TodoItem
+                                        key={id}
+                                        id={id}
+                                        todo={todo}
+                                        removeTodo={this.removeTodo}
+                                        updateTodoFn={this.updateTodoFn}
+                                    />
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+
             </div>
         )
     }
